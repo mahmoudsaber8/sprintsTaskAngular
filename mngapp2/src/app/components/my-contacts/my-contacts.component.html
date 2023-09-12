@@ -1,0 +1,49 @@
+<h2>My Contacts</h2>
+
+<div class="my-contacts">
+<ul>
+  <li *ngFor="let contact of contacts">
+    {{ contact.name }} - {{ contact.phoneNumber }}
+  </li>
+</ul>
+
+<div class="add">
+  <label for="newContact">Add new contact</label>
+  <input type="text" placeholder="Name" name="newContact" #newName>
+  <input type="text" placeholder="Phone Number" name="newPhoneNumber" #newPhoneNumber>
+  <button (click)="addContact(newName.value, newPhoneNumber.value)">Add</button>
+</div>
+
+<div id="search">
+    <h3>Search</h3>
+  <input type="text" placeholder="Search by Name" #searchInput>
+  <button class="primary" type="button" (click)="searchByName(searchInput.value)">Search</button>
+</div>
+
+<ul>
+  <li *ngFor="let contact of searchResult">
+    {{ contact.name }} - {{ contact.phoneNumber }}
+  </li>
+</ul>
+
+<div class="edit/delete">
+  <ul>
+    <li *ngFor="let contact of contacts; let i = index">
+      <ng-container *ngIf="editMode !== i; else editModeTemplate">
+        {{ contact.name }} - {{ contact.phoneNumber }}
+        <button (click)="startEdit(i)">Edit</button>
+        <button (click)="deleteContact(i)">Delete</button>
+      </ng-container>
+      <ng-template #editModeTemplate>
+        <input type="text" [value]="contacts[i].name" placeholder="Name" id="name-{{ i }}">
+        <input type="text" [value]="contacts[i].phoneNumber" placeholder="Phone Number" id="phoneNumber-{{ i }}">
+        <button (click)="saveEdit(i, contacts[i].name, contacts[i].phoneNumber)">Save</button>
+        <button (click)="cancelEdit(i)">Cancel</button>
+      </ng-template>
+    </li>
+  </ul>
+</div>
+
+
+
+</div>
